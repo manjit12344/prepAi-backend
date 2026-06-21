@@ -11,22 +11,15 @@ export function verifyRef(req,res,next){
   }
   try{
     const decoded = jwt.verify(token, config.refresh_secret);
+
+    req.refToken = token;
     next();
   }
  catch(err) {
    console.log(err.name);
-
-    if (err.name === "TokenExpiredError") {
     res.clearCookie("refreshToken");
     res.clearCookie("accessToken");
-      return res.status(401).json({
-        message: "Refresh token expired",
-      });
-    }
-
-    return res.status(403).json({
-      message: "Invalid refresh token",
-    });
+    return res.sendStatus(401);
   }
  }
 
@@ -35,6 +28,9 @@ export async function verifyAcc(req, res, next) {
   let refToken = req.cookies.refreshToken;
   if (!token && refToken) {
     token = await newToken(refToken);
+    if (!token || token === -1 || token === 0) {
+      return res.sendStatus(403);
+    }
     res.cookie("accessToken", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
