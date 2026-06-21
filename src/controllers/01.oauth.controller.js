@@ -38,14 +38,12 @@ export async function callBack(req, res) {
     res.cookie("refreshToken", refreshToken, myCookieRef);
 
     res.cookie("accessToken", accessToken,myCookieAcc);
-    res.redirect(
-        `https://prep-ai-1vpd.vercel.app/auth/callback?at=${accessToken}&rt=${refreshToken}`
-    );
+    res.redirect("https://prep-ai-1vpd.vercel.app/features")
 }
 
 // brotha veri importaant 
 export async function knowMe(req,res){
-    if(req.user) return res.json({
+    if(req.token) return res.json({
         user:req.user
     })
     return res.json({
