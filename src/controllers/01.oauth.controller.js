@@ -43,7 +43,7 @@ export async function callBack(req, res) {
 
 // brotha veri importaant 
 export async function knowMe(req,res){
-    if(req.token) return res.json({
+    if(req.user) return res.json({
         user:req.user
     })
     return res.json({
