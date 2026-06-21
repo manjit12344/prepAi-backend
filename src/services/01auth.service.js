@@ -7,7 +7,7 @@ passport.use(
     new GoogleStrategy({
         clientID: config.client_id,
         clientSecret: config.client_secret,
-        callbackURL:"http://localhost:3000/auth/google/callback",
+        callbackURL:"https://prep-ai-backend-nine.vercel.app/auth/google/callback",
         proxy: true
     },
         async (accessToken, refreshToken, profile, done) => {

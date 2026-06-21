@@ -48,7 +48,7 @@ export async function callBack(req, res) {
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         maxAge: 10000
     });
-    res.redirect("http://localhost:5173/features")
+    res.redirect("https://prep-ai-1vpd.vercel.app/features")
 }
 
 // brotha veri importaant 
