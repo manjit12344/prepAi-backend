@@ -16,7 +16,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://prep-ai-rosy-delta.vercel.app"
+     "https://prep-ai-1vpd.vercel.app"
     ],
     credentials: true,
   })
