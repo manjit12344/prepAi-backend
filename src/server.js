@@ -24,15 +24,6 @@ app.use(
 app.use(express.json());
 app.use(passport.initialize());
 
-router.get("/debug", (req, res) => {
-  res.json({
-    cookies: req.cookies,
-    access: req.cookies.accessToken,
-    refresh: req.cookies.refreshToken,
-    accessSecretExists: !!config.access_secret,
-    refreshSecretExists: !!config.refresh_secret,
-  });
-});
 
 app.use("/",my_auth);
 app.use("/api/preInterview",pre);

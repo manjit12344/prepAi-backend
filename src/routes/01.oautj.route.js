@@ -13,6 +13,16 @@ router.get("/auth",verifyRef,verifyAcc,(req,res)=>{
     res.send("authorized")
 })
 router.get("/knowMe",verifyAcc,authControllers.knowMe);
-router.get("/logOut",verifyRef,verifyAcc,authControllers.logOut)
+router.get("/logOut",verifyRef,verifyAcc,authControllers.logOut);
+router.get("/debug", (req, res) => {
+  res.json({
+    cookies: req.cookies,
+    access: req.cookies.accessToken,
+    refresh: req.cookies.refreshToken,
+    accessSecretExists: !!config.access_secret,
+    refreshSecretExists: !!config.refresh_secret,
+  });
+});
+
 
 export default router;
