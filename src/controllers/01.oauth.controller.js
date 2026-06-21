@@ -14,7 +14,7 @@ export async function callBack(req, res) {
         name: user.name,
         email: user.email
     }, config.access_secret, {
-        expiresIn: "10s"
+        expiresIn: "15m"
     });
 
     //create refreshToken
