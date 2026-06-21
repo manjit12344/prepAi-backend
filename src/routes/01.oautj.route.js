@@ -12,7 +12,7 @@ router.get("/auth/google/callback",passport.authenticate("google", { session: fa
 router.get("/auth",verifyRef,verifyAcc,(req,res)=>{
     res.send("authorized")
 })
-router.get("/knowMe",verifyAcc,authControllers.knowMe);
+router.get("/knowMe",authControllers.knowMe);
 router.get("/logOut",verifyRef,verifyAcc,authControllers.logOut)
 
 export default router;
