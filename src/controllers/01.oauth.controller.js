@@ -45,7 +45,10 @@ export async function callBack(req, res) {
 export async function knowMe(req,res){
     const token = req.cookies.accessToken;
     const decode = jwt.verify(token,config.access_secret);
-    if(token) return res.json();
+
+    if(token) return res.json({
+      user:decode
+    });
     return res.json({user : null});
 }
 
