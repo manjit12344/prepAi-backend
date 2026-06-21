@@ -11,19 +11,14 @@ export function verifyRef(req,res,next){
   }
   try{
     const decoded = jwt.verify(token, config.refresh_secret);
-
-    req.refToken = token;
-    req.user = decoded;
-
     next();
   }
  catch(err) {
    console.log(err.name);
 
+    if (err.name === "TokenExpiredError") {
     res.clearCookie("refreshToken");
     res.clearCookie("accessToken");
-
-    if (err.name === "TokenExpiredError") {
       return res.status(401).json({
         message: "Refresh token expired",
       });
