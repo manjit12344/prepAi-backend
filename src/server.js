@@ -12,14 +12,15 @@ import history from "./routes/03.history.route.js";
 const app = express();
 app.set("trust proxy", 1);
 app.use(cookieParser());
-app.use(cors({
-  origin: "https://prep-ai-1vpd.vercel.app", // Your frontend URL
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-}));
-
-// 3. MUST BE THIRD: Explicit, safe preflight handler
-app.options("*", cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+     "https://prep-ai-1vpd.vercel.app"
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(passport.initialize());
 
