@@ -46,34 +46,57 @@ export async function callBack(req, res) {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-        maxAge: 10000
+        maxAge: 1000*60*15
     });
     res.redirect("https://prep-ai-1vpd.vercel.app/features")
 }
 
-// brotha veri importaant 
+// Get authenticated user information
 export async function knowMe(req,res){
-    if(req.token) return res.json({
-        user:req.user
-    })
-    return res.json({
-        user:null
-    })
-    
+    try {
+        if(req.token && req.user) {
+            return res.json({
+                user: req.user
+            });
+        }
+        return res.json({
+            user: null
+        });
+    } catch(err) {
+        console.error("knowMe error:", err);
+        return res.status(500).json({
+            error: "Failed to fetch user information"
+        });
+    }
 }
 
 export async function logOut(req,res){
-      const findFrom = await prisma.user.update({
-        where:{
-            id:req.user.id
-        },
-        data:{
-            refreshToken:null
-        }
-      });
-      res.clearCookie("accessToken");
-      res.clearCookie("refreshToken");
-      res.json({
-        message:`user ${req.user.name} log out`
-      })
+      try {
+        await prisma.user.update({
+          where:{
+              id:req.user.id
+          },
+          data:{
+              refreshToken:null
+          }
+        });
+        res.clearCookie("accessToken", {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+        });
+        res.clearCookie("refreshToken", {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+        });
+        res.json({
+          message:`user ${req.user.name} logged out successfully`
+        });
+      } catch(err) {
+        console.error("logOut error:", err);
+        res.status(500).json({
+          error: "Failed to logout"
+        });
+      }
 }
