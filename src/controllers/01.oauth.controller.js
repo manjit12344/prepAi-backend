@@ -43,18 +43,13 @@ export async function callBack(req, res) {
 
 // brotha veri importaant 
 export async function knowMe(req,res){
-    try{
-        const token = req.cookies.accessToken;
-    const decode = jwt.verify(token,config.access_secret);
-
-    if(token) return res.json({
-      user:decode
-    });
-    }catch(error){
-        return res.json({
-            user:null
-        })
-    }
+    if(req.token) return res.json({
+        user:req.user
+    })
+    return res.json({
+        user:null
+    })
+    
 }
 
 export async function logOut(req,res){
