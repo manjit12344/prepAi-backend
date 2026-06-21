@@ -14,14 +14,12 @@ export const myCookieAcc = {
   httpOnly: true,
   secure: true,
   sameSite: "none",
-  partitioned: true,
   maxAge: 1000*60*15
 };
 export const myCookieRef = {
   httpOnly: true,
   secure: true,
   sameSite: "none",
-  partitioned: true,
   maxAge: 1000*60*60*24*7
 
 }

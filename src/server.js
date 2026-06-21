@@ -13,13 +13,12 @@ const app = express();
 app.set("trust proxy", 1);
 app.use(cookieParser());
 app.use(cors({
-  origin: "https://prep-ai-1vpd.vercel.app", 
+  origin: "https://prep-ai-1vpd.vercel.app", // Your frontend URL
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"]
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 }));
 
-// 2. EXPLICIT PREFLIGHT OPTIONS HANDLER (CRITICAL FOR VERCEL)
+// 3. MUST BE THIRD: Explicit, safe preflight handler
 app.options("*", cors());
 app.use(express.json());
 app.use(passport.initialize());
