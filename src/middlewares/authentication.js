@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import config, { prisma } from "../config/config.js"
+import config, { prisma,myCookieRef,myCookieAcc } from "../config/config.js"
 import { newToken } from "../services/01auth.service.js"
 
 export function verifyRef(req,res,next){
@@ -31,12 +31,7 @@ export async function verifyAcc(req, res, next) {
     if (!token || token === -1 || token === 0) {
       return res.sendStatus(403);
     }
-    res.cookie("accessToken", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      maxAge: 1000*60*15
-    })
+    res.cookie("accessToken", token,myCookieAcc);
   }
   if (!token && !refToken) {
     return res.sendStatus(401);
@@ -55,12 +50,7 @@ export async function verifyAcc(req, res, next) {
       const newAccessToken = await newToken(refToken);
       if (!newAccessToken || newAccessToken === -1 || newAccessToken === 0) return res.sendStatus(403);
       res.clearCookie("accessToken");
-      res.cookie("accessToken", newAccessToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite:" none",
-        maxAge: 1000*60*15
-      })
+      res.cookie("accessToken", newAccessToken, myCookieAcc)
       const decoded = jwt.verify(newAccessToken, config.access_secret);
       req.user = decoded;
       req.token = newAccessToken;

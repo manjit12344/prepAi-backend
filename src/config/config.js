@@ -10,6 +10,20 @@ export const prisma = new PrismaClient({
     adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
 })
 
+export const myCookieAcc = {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  maxAge: 1000*60*15
+};
+export const myCookieRef = {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  maxAge: 1000*60*60*24*7
+
+}
+
 
 //Environment variables configration
 

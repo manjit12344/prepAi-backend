@@ -3,7 +3,7 @@ import "../services/01auth.service.js"
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import config, { prisma } from "../config/config.js"
+import config, { prisma,myCookieAcc,myCookieRef } from "../config/config.js"
 
 export async function callBack(req, res) {
     const user = req.user;
@@ -35,19 +35,9 @@ export async function callBack(req, res) {
 
     })
     // storing refreshToken in cookies
-    res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure:true,
-        sameSite:  "none",
-        maxAge: 1000*60*60*24*7
-    });
+    res.cookie("refreshToken", refreshToken, myCookieRef);
 
-    res.cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure:true,
-        sameSite: "none",
-        maxAge: 10001000*60*15
-    });
+    res.cookie("accessToken", accessToken,myCookieAcc);
     res.redirect("https://prep-ai-1vpd.vercel.app/features")
 }
 
