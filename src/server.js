@@ -12,15 +12,15 @@ import history from "./routes/03.history.route.js";
 const app = express();
 app.set("trust proxy", 1);
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-     "https://prep-ai-1vpd.vercel.app"
-    ],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: "https://prep-ai-1vpd.vercel.app", 
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"]
+}));
+
+// 2. EXPLICIT PREFLIGHT OPTIONS HANDLER (CRITICAL FOR VERCEL)
+app.options("*", cors());
 app.use(express.json());
 app.use(passport.initialize());
 
