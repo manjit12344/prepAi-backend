@@ -23,6 +23,13 @@ router.get("/debug", (req, res) => {
     refreshSecretExists: !!config.refresh_secret,
   });
 });
+router.get("/auth/setTokens", (req, res) => {
+    const { at, rt } = req.query;
+    if (!at || !rt) return res.sendStatus(400);
+    res.cookie("accessToken", at, myCookieAcc);
+    res.cookie("refreshToken", rt, myCookieRef);
+    res.json({ success: true });
+});
 
 
 export default router;
