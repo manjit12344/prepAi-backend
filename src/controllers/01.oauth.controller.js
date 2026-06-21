@@ -37,66 +37,43 @@ export async function callBack(req, res) {
     // storing refreshToken in cookies
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        secure:true,
+        sameSite:  "none",
         maxAge: 1000*60*60*24*7
     });
 
     res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-        maxAge: 1000*60*15
+        secure:true,
+        sameSite: "none",
+        maxAge: 10001000*60*15
     });
     res.redirect("https://prep-ai-1vpd.vercel.app/features")
 }
 
-// Get authenticated user information
+// brotha veri importaant 
 export async function knowMe(req,res){
-    try {
-        if(req.token && req.user) {
-            return res.json({
-                user: req.user
-            });
-        }
-        return res.json({
-            user: null
-        });
-    } catch(err) {
-        console.error("knowMe error:", err);
-        return res.status(500).json({
-            error: "Failed to fetch user information"
-        });
-    }
+    if(req.token) return res.json({
+        user:req.user
+    })
+    return res.json({
+        user:null
+    })
+    
 }
 
 export async function logOut(req,res){
-      try {
-        await prisma.user.update({
-          where:{
-              id:req.user.id
-          },
-          data:{
-              refreshToken:null
-          }
-        });
-        res.clearCookie("accessToken", {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
-        });
-        res.clearCookie("refreshToken", {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
-        });
-        res.json({
-          message:`user ${req.user.name} logged out successfully`
-        });
-      } catch(err) {
-        console.error("logOut error:", err);
-        res.status(500).json({
-          error: "Failed to logout"
-        });
-      }
+      const findFrom = await prisma.user.update({
+        where:{
+            id:req.user.id
+        },
+        data:{
+            refreshToken:null
+        }
+      });
+      res.clearCookie("accessToken");
+      res.clearCookie("refreshToken");
+      res.json({
+        message:`user ${req.user.name} log out`
+      })
 }

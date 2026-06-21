@@ -7,7 +7,7 @@ passport.use(
     new GoogleStrategy({
         clientID: config.client_id,
         clientSecret: config.client_secret,
-        callbackURL: config.redirect_url || "https://prep-ai-backend-nine.vercel.app/auth/google/callback",
+        callbackURL:"https://prep-ai-backend-nine.vercel.app/auth/google/callback",
         proxy: true
     },
         async (accessToken, refreshToken, profile, done) => {
@@ -46,7 +46,7 @@ export async function newToken(refreshToken) {
         id: decode.id
       }
     });
-    if (!user || user.refreshToken !== refreshToken)
+    if (!user || user.refreshToken != refreshToken)
       return -1;
     const newAccessToken = jwt.sign({
       id: user.id,

@@ -26,12 +26,9 @@ export function verifyRef(req,res,next){
 export async function verifyAcc(req, res, next) {
   let token = req.cookies.accessToken;
   let refToken = req.cookies.refreshToken;
-  
   if (!token && refToken) {
     token = await newToken(refToken);
     if (!token || token === -1 || token === 0) {
-      res.clearCookie("accessToken");
-      res.clearCookie("refreshToken");
       return res.sendStatus(403);
     }
     res.cookie("accessToken", token, {
@@ -41,12 +38,13 @@ export async function verifyAcc(req, res, next) {
       maxAge: 1000*60*15
     })
   }
-  
   if (!token && !refToken) {
     return res.sendStatus(401);
   }
-  
   try {
+    console.log("access:", req.cookies.accessToken);
+    console.log("refresh:", req.cookies.refreshToken);
+
     const decoded = jwt.verify(token, config.access_secret);
     req.user = decoded;
     req.token = token;
@@ -59,8 +57,8 @@ export async function verifyAcc(req, res, next) {
       res.clearCookie("accessToken");
       res.cookie("accessToken", newAccessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        secure: true,
+        sameSite:" none",
         maxAge: 1000*60*15
       })
       const decoded = jwt.verify(newAccessToken, config.access_secret);
@@ -75,5 +73,3 @@ export async function verifyAcc(req, res, next) {
     res.sendStatus(401)
   }
 }
-
-
