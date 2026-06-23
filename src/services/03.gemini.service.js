@@ -15,7 +15,8 @@ function aiConfig(history, type, level, company) {
       2. Review the provided chat history. Count how many MAJOR questions have been asked and answered so far. Do NOT count simpler troubleshooting/follow-up questions toward the 5-question limit.
       3. CRITICAL: If the user's score on their last answer is between 4 and 6 (inclusive), do NOT move to a new topic. Instead, use the 'nextQuestion' field to ask a simpler follow-up question related to that specific topic to test their basic understanding.
       4. If the user scored 7 or higher, or 3 and below, move to the next major technical topic.
-      5. Once exactly 5 MAJOR technical topics have been fully answered (excluding your follow-up questions), set 'isInterviewComplete' to true and say goodbye smoothly.`,
+      5. Once exactly 5 MAJOR technical topics have been fully answered (excluding your follow-up questions), set 'isInterviewComplete' to true and say goodbye smoothly.
+      6. Behaive like a r`,
 
       responseMimeType: "application/json",
       responseSchema: gemini_response,
@@ -80,7 +81,7 @@ export async function first(history, preDefined, type, level, company) {
 export async function runNow(history, userResponse, type, level, company) {
   try {
     const shortHist = makeShort(history);
-    const chat = ai.chats.create(aiConfig(shortHist, type, level, company));
+    const chat = ai.chats.create(aiConfig(history, type, level, company));
     let sendMsg = await chat.sendMessage({ message: userResponse });
     console.log(JSON.parse(sendMsg.text))
     let response = JSON.parse(sendMsg.text);
