@@ -36,6 +36,7 @@ const config = {
     redirect_url: process.env.REDIRECT_URL,
     access_secret:process.env.ACCESS_SECRET,
     refresh_secret:process.env.REFRESH_SECRET,
+    deepseek_api_key:process.env.DEEPSEEK_API_KEY,
     port: process.env.PORT
 }
 

@@ -49,7 +49,7 @@ export async function verifyAcc(req, res, next) {
     return next();
   } catch (err) {
     if (err.name == "TokenExpiredError") {
-      console.log(err.name);
+      console.log(err.name,err);
       const newAccessToken = await newToken(refToken);
       if (!newAccessToken || newAccessToken === -1 || newAccessToken === 0) return res.sendStatus(403);
       res.clearCookie("accessToken");

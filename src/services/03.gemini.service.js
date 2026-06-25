@@ -5,7 +5,7 @@ const ai = new GoogleGenAI({ apiKey: config.gemini_api_key });
 
 function aiConfig(history, type, level, company) {
   return {
-    model: "gemini-2.5-flash-lite",
+    model: "gemini-2.5-flash",
     history: history,
     config: {
       systemInstruction: `You are a professional technical interviewer assessing a ${type} candidate at an ${level} level for ${company}.

@@ -22,6 +22,7 @@ model User {
   refreshToken    String?          
   interviews      Interview[]       
   interviewResults InterviewResult[] 
+  resumes          Resume[]
 }
 
 model Interview {
@@ -59,4 +60,15 @@ model InterviewResult {
   // Relations
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   interview   Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+}
+
+
+model Resume {
+  id        Int      @id @default(autoincrement())
+
+  fileUrl   String
+  createdAt DateTime @default(now())
+
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
