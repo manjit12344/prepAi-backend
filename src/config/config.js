@@ -30,6 +30,7 @@ export const myCookieRef = {
 const config = {
 
     database_url: process.env.DATABASE_URL,
+    openrouter_api_key:process.env.OPENROUTER_API_KEY,
     gemini_api_key: process.env.GEMINI_API_KEY,
     client_id: process.env.CLIENT_ID,
     client_secret: process.env.CLIENT_SECRET,

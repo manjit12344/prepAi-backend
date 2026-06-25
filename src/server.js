@@ -8,7 +8,7 @@ import config,{prisma} from "./config/config.js";
 import my_auth from "./routes/01.oautj.route.js";
 import pre from "./routes/02.userDb.route.js";
 import history from "./routes/03.history.route.js";
-
+import resume from "./routes/04.resume.route.js";
 
 const app = express();
 app.set("trust proxy", 1);
@@ -29,6 +29,7 @@ app.use(passport.initialize());
 app.use("/",my_auth);
 app.use("/api/preInterview",pre);
 app.use("/hist",history);
+app.use("/resume",resume);
 
 app.listen(3000,()=>console.log(`app is running on port `));
 

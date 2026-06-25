@@ -1,43 +1,66 @@
-import config,{prisma} from "../config/config.js"
-import OpenAI from "openai";
-import PDFParser from "pdf-parser";
+  import config, { prisma } from "../config/config.js"
+  import { OpenRouter } from "@openrouter/sdk";
 
-const openai = new OpenAI({
-        baseURL: 'https://api.deepseek.com',
-        apiKey: config.deepseek_api_key,
-});
-
-
-
-
-async function formattingPdf(url){
-
-}
-
-
-async function main(resumeURL) {
-  const completion = await openai.chat.completions.create({
-    messages: [{ role: "system", content: `
-        You are an expert ATS scanner and technical recruiter.
-        
-        ${resumeURL} is the resume url.
-
-        Return ONLY valid JSON.
-
-              {
-        "atsScore": number,
-        "strengths": [],
-        "weaknesses": [],
-        "suggestions": []
-      }
-        
-        ` }],
-    model: "deepseek-v4-pro",
-    thinking: {"type": "enabled"},
-    reasoning_effort: "high",
-    stream: false,
+  const openrouter = new OpenRouter({
+    apiKey: config.openrouter_api_key
   });
 
-  return completion.choices[0].message.content;
-}
+
+
+  export async function main(url) {
+    // Stream the response to get reasoning tokens in usage
+    const check= url.toLowerCase().split(".");
+    let isPdf = false
+    if(check[check.length-1] === "pdf")  isPdf = true;
+    const stream = await openrouter.chat.send({
+      chatRequest: {
+      model: "google/gemma-4-31b-it:free",
+      response_format: { type: "json_object" },
+      stream: false,
+      temperature: 0.1, // Forces the model to be strict, consistent, and analytical
+      reasoning: {
+        max_tokens: 2048 // Allocates reasoning tokens so it thinks deeply before writing the JSON
+      },
+      messages: [
+        {
+          "role": "user",
+          "content": [
+            {
+              type: "text",
+              text: `You are an expert ATS scanner and technical recruiter.
+
+          ${url} is the content.
+
+          Return ONLY valid JSON..return any bullshit thing if textcontent is not resume type
+
+                {
+          "atsScore": number,
+          "strengths": [],
+          "weaknesses": [],
+          "suggestions": []
+        }
+
+        `
+            }, isPdf ? {
+              type: 'file',
+              file: {
+                filename: 'document.pdf',
+                fileData: url,
+              },
+
+            } : {
+              type: 'image_url',
+              image_url: {
+                url: url,
+              },
+            }
+          ]
+        }
+      ],
+      }
+    });
+
+    return stream.choices[0]?.message?.content;
+  }
+
 
