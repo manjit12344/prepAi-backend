@@ -55,7 +55,17 @@ model InterviewResult {
   id          Int       @id @default(autoincrement())
   userId      Int
   interviewId Int       @unique 
-  final       String    
+
+  averageScore         Int      @default(0)
+  technicalScore       Int      @default(0)
+  communicationScore   Int      @default(0)
+  speedScore           Int      @default(0)
+
+  weakness    String?
+  strength    String?
+  feedback    String?
+
+  createdAt    DateTime @default(now())   
 
   // Relations
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)

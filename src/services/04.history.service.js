@@ -23,10 +23,11 @@ export async function checkout(userId,interviewId){
 
 // x interview of x user
 
-export async function checkout2(userId){
+export async function checkout2(userId,flag){
     const response = await prisma.interview.findMany({
         where:{
             userId,
+            status:flag?"completed":"going"
         },orderBy:{
             id:"desc"
         },

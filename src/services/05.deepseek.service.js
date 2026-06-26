@@ -5,8 +5,6 @@
     apiKey: config.openrouter_api_key
   });
 
-
-
   export async function main(url) {
     // Stream the response to get reasoning tokens in usage
     const check= url.toLowerCase().split(".");

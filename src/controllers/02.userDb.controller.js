@@ -1,6 +1,7 @@
 import config, { prisma } from "../config/config.js";
 import { setPre, joinDetails, handelFirst, findFromDb, storeInDb } from "../services/02.userDb.service.js";
 import { runNow, first } from "../services/03.gemini.service.js"
+import {owlAlphaPayload} from "../services/06.analysis.service.js";
 
 export async function preInterview(req, res) {
     const { type, level, company } = req.body;
@@ -58,6 +59,8 @@ export async function interviewResponse(req, res) {
         const store = await storeInDb(nqId, nId, aiChat, userResponse);
 
         //brillient edge case !good job
+        // do analysis on ending interview bro!
+        let analysis = null;
         if (aiChat.isInterviewComplete) {
             await prisma.interview.update({
                 where: {
@@ -67,11 +70,14 @@ export async function interviewResponse(req, res) {
                     status: "completed"
                 }
             })
+          analysis = await owlAlphaPayload(nId,req.user.id);
         }
+        console.log("HELLO******SEEHERE:",analysis);
         return res.json({
             interviewId: nId,
             qId: store,
-            aiChat
+            aiChat,
+            analysis
         })
     }
     catch (err) {

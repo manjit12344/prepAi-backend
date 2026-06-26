@@ -30,10 +30,13 @@ export async function seeInterview(req,res){
 
     const userId = req.user.id
     const uId = Number(userId);
-    const response = await hist.checkout2(uId);
+    const response = await hist.checkout2(uId,false);  //getting uncomplete interviews
+    const response2 = await hist.checkout2(uId,true); //getting complete interviews
+
 
     return res.json({
-        response
+        response,
+        response2
     })
     }
     catch(err){

@@ -17,7 +17,6 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-     "https://prep-ai-1vpd.vercel.app"
     ],
     credentials: true,
   })
@@ -31,5 +30,5 @@ app.use("/api/preInterview",pre);
 app.use("/hist",history);
 app.use("/resume",resume);
 
-app.listen(3000,()=>console.log(`app is running on port `));
+app.listen(config.port,()=>console.log(`app is running on port ${config.port} `));
 
