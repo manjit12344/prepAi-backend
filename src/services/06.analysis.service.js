@@ -27,9 +27,9 @@ async function analysis(payload) {
                  "technicalScore": number,
                  "communicationScore": number,
                  "speedScore": number,
-                 "weakness": string 
-                 "strength": string
-                 "feedback": string
+                 "weakness": string,
+                 "strength": string,
+                 "feedback": string,
                }
                  followind is the text
         `
@@ -82,24 +82,50 @@ export async function owlAlphaPayload(interviewId, userId) {
 
     let viewSome = JSON.parse(cleaner);
 
-   try{
-     await prisma.interviewResult.create({
-        data: {
+    try {
+        const data = await prisma.interviewResult.findFirst({
+            where: {
+                interviewId,
+                userId
+            }
+        })
+        if (data) return data;
+        await prisma.interviewResult.create({
+            data: {
+                interviewId,
+                userId,
+                averageScore: viewSome.averageScore,
+                technicalScore: viewSome.technicalScore,
+                communicationScore: viewSome.communicationScore,
+                speedScore: viewSome.speedScore,
+
+                weakness: viewSome.weakness,
+                strength: viewSome.strength,
+                feedback: viewSome.feedback,
+
+            }
+        })
+        return viewSome;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function analytics(interviewId, userId) {
+    const data = await prisma.interviewResult.findFirst({
+        where: {
             interviewId,
-            userId,
-            averageScore:viewSome.averageScore,
-            technicalScore:viewSome.technicalScore,
-            communicationScore:viewSome.communicationScore,
-            speedScore:viewSome.speedScore,
+            userId
+        }, select: {
+            averageScore: true,
+            technicalScore: true,
+            communicationScore: true,
+            speedScore: true,
 
-            weakness:viewSome.weakness,
-            strength:viewSome.strength,
-            feedback:viewSome.feedback,
-
+            weakness: true,
+            strength: true,
+            feedback: true
         }
     })
-    return viewSome;
-   }catch(error){
-    console.log(error);
-   }
+    return data;
 }

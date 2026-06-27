@@ -15,10 +15,6 @@
       model: "google/gemma-4-31b-it:free",
       response_format: { type: "json_object" },
       stream: false,
-      temperature: 0.1, // Forces the model to be strict, consistent, and analytical
-      reasoning: {
-        max_tokens: 2048 // Allocates reasoning tokens so it thinks deeply before writing the JSON
-      },
       messages: [
         {
           "role": "user",

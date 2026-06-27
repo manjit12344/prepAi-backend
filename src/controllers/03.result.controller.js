@@ -1,6 +1,7 @@
 import config,{prisma} from "../config/config.js";
 import * as hist from "../services/04.history.service.js";
 import jwt from "jsonwebtoken";
+import {analytics} from "../services/06.analysis.service.js"
 //x interview chat history.
 export async function seeChatHistory(req,res){
     try{
@@ -40,8 +41,18 @@ export async function seeInterview(req,res){
     })
     }
     catch(err){
-        res.json("something wend wrong!");
+        res.json({err});
     }
 };
 
+// X interview analytics
 
+export async function seeAnalytics(req,res){
+    const {interviewId,userId} = req.params;
+    const nuId = Number(userId)
+    const niId = Number(interviewId)
+    const response = await analytics(niId,nuId);
+    return res.json({
+        response
+    })
+}
