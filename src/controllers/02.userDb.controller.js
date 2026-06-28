@@ -85,7 +85,6 @@ export async function interviewResponse(req, res) {
             error:err
         })
     }
-
 }
 
 // [

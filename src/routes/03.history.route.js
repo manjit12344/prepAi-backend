@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/chat/:interviewId",verifyRef,verifyAcc,hist.seeChatHistory);
 router.get("/allInterview",verifyRef,verifyAcc,hist.seeInterview);
-router.get("/:interviewId/:userId",hist.seeAnalytics);
+router.get("/:interviewId/:userId",verifyRef,verifyAcc,hist.seeAnalytics);
 
 export default router;
 

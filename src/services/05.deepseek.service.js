@@ -12,7 +12,7 @@
     if(check[check.length-1] === "pdf")  isPdf = true;
     const stream = await openrouter.chat.send({
       chatRequest: {
-      model: "google/gemma-4-31b-it:free",
+      model: "openrouter/owl-alpha",
       response_format: { type: "json_object" },
       stream: false,
       messages: [

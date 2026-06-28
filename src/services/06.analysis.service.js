@@ -30,8 +30,9 @@ async function analysis(payload) {
                  "weakness": string,
                  "strength": string,
                  "feedback": string,
-               }
-                 followind is the text
+               } 
+                 give these scores out of 100
+                 following is the text
         `
                         },
                         {
