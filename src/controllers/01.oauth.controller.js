@@ -3,7 +3,7 @@ import "../services/01auth.service.js"
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import config, { prisma,myCookieAcc,myCookieRef } from "../config/config.js"
+import config, { prisma, myCookieAcc, myCookieRef } from "../config/config.js"
 
 export async function callBack(req, res) {
     const user = req.user;
@@ -37,34 +37,34 @@ export async function callBack(req, res) {
     // storing refreshToken in cookies
     res.cookie("refreshToken", refreshToken, myCookieRef);
 
-    res.cookie("accessToken", accessToken,myCookieAcc);
-    
+    res.cookie("accessToken", accessToken, myCookieAcc);
+
     res.redirect("https://prep-ai-1vpd.vercel.app/features")
 }
 
 // brotha veri importaant 
-export async function knowMe(req,res){
-    if(req.user) return res.json({
-        user:req.user
+export async function knowMe(req, res) {
+    if (req.user) return res.json({
+        user: req.user
     })
     return res.json({
-        user:null
+        user: null
     })
-    
+
 }
 
-export async function logOut(req,res){
-      const findFrom = await prisma.user.update({
-        where:{
-            id:req.user.id
+export async function logOut(req, res) {
+    const findFrom = await prisma.user.update({
+        where: {
+            id: req.user.id
         },
-        data:{
-            refreshToken:null
+        data: {
+            refreshToken: null
         }
-      });
-      res.clearCookie("accessToken");
-      res.clearCookie("refreshToken");
-      res.json({
-        message:`user ${req.user.name} log out`
-      })
+    });
+    res.clearCookie("accessToken", myCookieAcc);
+    res.clearCookie("refreshToken", myCookieRef);
+    res.json({
+        message: `user ${req.user.name} log out`
+    })
 }
