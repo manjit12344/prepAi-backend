@@ -11,17 +11,14 @@ import history from "./routes/03.history.route.js";
 import resume from "./routes/04.resume.route.js";
 
 const app = express();
-app.set("trust proxy", 1);
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: [
-      "https://prep-ai-1vpd.vercel.app",
-      "http://localhost:5173",
-    ],
-    credentials: true,
-  })
-);
+app.set("trust proxy", 1);
+
+app.use(cors({
+    origin: "https://prep-ai-1vpd.vercel.app", // exact frontend URL, no trailing slash
+    credentials: true,  // THIS is critical — without this cookies never send
+    methods: ["GET", "POST", "PUT", "DELETE"],
+}));
 app.use(express.json());
 app.use(passport.initialize());
 
