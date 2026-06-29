@@ -25,8 +25,7 @@ export async function verifyRef(req, res, next) {
       res.clearCookie("refreshToken", myCookieRef);
     await prisma.user.update({
       where:{
-        id:decode.id,
-        refreshToken:token
+        id:decoded.id,
       },
       data:{
         refreshToken:null
