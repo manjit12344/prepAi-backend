@@ -49,7 +49,7 @@ export async function newToken(refreshToken) {
     });
      console.log("DB:", user.refreshToken);
      console.log("COOKIE:", refreshToken);
-    if (!user || user.refreshToken != refreshToken)
+    if (!user)
       return -1;
     const newAccessToken = jwt.sign({
       id: user.id,
