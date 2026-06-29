@@ -39,8 +39,7 @@ passport.use(
 
 export async function newToken(refreshToken) {
   try {
-    console.log("DB:", user.refreshToken);
-console.log("COOKIE:", refreshToken);
+   
     const decode = jwt.verify(refreshToken, config.refresh_secret);
 
     const user = await prisma.user.findUnique({
@@ -48,6 +47,8 @@ console.log("COOKIE:", refreshToken);
         id: decode.id
       }
     });
+     console.log("DB:", user.refreshToken);
+     console.log("COOKIE:", refreshToken);
     if (!user || user.refreshToken != refreshToken)
       return -1;
     const newAccessToken = jwt.sign({

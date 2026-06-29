@@ -12,16 +12,26 @@ export function verifyRef(req, res, next) {
       message: "Refresh token missing",
     });
   }
+  const decoded = jwt.verify(token, config.refresh_secret);
   try {
-    const decoded = jwt.verify(token, config.refresh_secret);
+    
     req.user = decoded; 
     req.refToken = token;
     next();
   }
   catch (err) {
     console.log(err.name);
-    res.clearCookie("refreshToken");
-    res.clearCookie("accessToken");
+      res.clearCookie("accessToken", myCookieAcc);
+      res.clearCookie("refreshToken", myCookieRef);
+    await prisma.user.update({
+      where:{
+        id:decode.id,
+        refreshToken:token
+      },
+      data:{
+        refreshToken:null
+      }
+    })
     return res.sendStatus(401);
   }
 }

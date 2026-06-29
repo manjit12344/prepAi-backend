@@ -66,6 +66,6 @@ export async function logOut(req,res){
       res.clearCookie("refreshToken", myCookieRef);
       console.log("Logout called");
       res.json({
-        message:`user ${req.user.name} log out`
+        message:`user ${req.user} log out`
       })
 }
