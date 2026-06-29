@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import config, { prisma, myCookieRef, myCookieAcc } from "../config/config.js"
 import { newToken } from "../services/01auth.service.js"
 
-export function verifyRef(req, res, next) {
+export async function verifyRef(req, res, next) {
   console.log("ALL COOKIES:", req.cookies);
 
   const token = req.cookies.refreshToken;
