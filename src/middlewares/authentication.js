@@ -14,7 +14,7 @@ export function verifyRef(req, res, next) {
   }
   try {
     const decoded = jwt.verify(token, config.refresh_secret);
-
+    req.user = decoded; 
     req.refToken = token;
     next();
   }
