@@ -39,7 +39,14 @@ export async function callBack(req, res) {
 
     res.cookie("accessToken", accessToken,myCookieAcc);
     
-    res.redirect("https://prep-ai-1vpd.vercel.app/features")
+        res.send(`
+        <html>
+          <head>
+            <meta http-equiv="refresh" content="0;url=https://prep-ai-1vpd.vercel.app/features" />
+          </head>
+          <body>Redirecting...</body>
+        </html>
+    `);
 }
 
 // brotha veri importaant 
