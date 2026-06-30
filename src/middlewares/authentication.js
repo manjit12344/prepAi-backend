@@ -39,7 +39,7 @@ export async function verifyAcc(req, res, next) {
   let token = req.cookies.accessToken;
   let refToken = req.cookies.refreshToken;
   console.log("Access:", req.cookies.accessToken);
-console.log("Refresh:", req.cookies.refreshToken);
+  console.log("Refresh:", req.cookies.refreshToken);
   if (!token && refToken) {
     token = await newToken(refToken);
     if (!token || token === -1 || token === 0) {
