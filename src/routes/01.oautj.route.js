@@ -24,5 +24,9 @@ router.get("/debug", (req, res) => {
   });
 });
 
+router.get("/test", (req, res) => {
+    console.log(req.cookies);
+    res.json(req.cookies);
+});
 
 export default router;
